@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>identifier</key>
+	<string>qmtv.com.QMTV-More</string>
+	<key>version</key>
+	<string>1.0.0</string>
+	<key>p12</key>
+	<string>/Users/sunjinshuai/Desktop/证书.p12</string>
+	<key>p12Password</key>
+	<string>1</string>
+	<key>mobileprovisionFile</key>
+	<string>/Users/sunjinshuai/Desktop/ad_hoc.mobileprovision</string>
+	<key>appName</key>
+	<string>MYUtils</string>
+	<key>conf</key>
+	<string>Debug</string>
+	<key>plistInfo</key>
+	<string>/Users/sunjinshuai/Desktop/MYUtils/MYUtils/Resource/Info.plist</string>
+	<key>bundleDisplayName</key>
+	<string>MYUtils</string>
+	<key>xcworkspace</key>
+	<string>/Users/sunjinshuai/Desktop/MYUtils/MYUtils.xcworkspace</string>
+	<key>scheme</key>
+	<string>MYUtils</string>
+</dict>
+</plist>
