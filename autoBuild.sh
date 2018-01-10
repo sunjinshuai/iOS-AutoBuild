@@ -1,8 +1,8 @@
 #!/bin.sh
 #iOS-Autobuild
 ########################################################
-#定义一些变量
 
+#定义变量变量名不加美元符号
 PlistBuddy="/usr/libexec/PlistBuddy"
 
 ########################################################
@@ -12,8 +12,7 @@ verValue=$1
 flagValue=$2
 logVaule=$3
 flage=","
-if [ $flagValue = $flage -a $verValue ]
-then
+if [ $flagValue = $flage -a $verValue ] then
 echo "The ${logVaule} = ${verValue} Validation Success"
 else
 echo "($verValue , $flagValue , $logVaule ),Validation Failure"
@@ -27,8 +26,7 @@ verValue=$1
 flagValue=$2
 logVaule=$3
 flage=","
-if [ $flagValue = $flage -a -e $verValue ]
-then
+if [ $flagValue = $flage -a -e $verValue ] then
 echo "The ${logVaule} = ${verValue} file exit "
 else
 echo "($verValue , $flagValue , $logVaule ),file dont exit"
@@ -57,7 +55,7 @@ appName=$($PlistBuddy -c "Print :appName" $configFile)
 verificationVar $appName "," "appName"
 #version
 version=$($PlistBuddy -c "Print :version" $configFile)
-verificationVar $version "," "versionwww"
+verificationVar $version "," "version"
 #conf
 conf=$($PlistBuddy -c "Print :conf" $configFile)
 verificationVar $conf "," "conf"
@@ -115,7 +113,8 @@ appName="${ipaNamePre}.app"
 appFilePath="${appDir}/${appName}"
 echo $appFilePath
 #编译环境的配置
-releaseDir="${HOME}/Library/Developer/Xcode/DerivedData/Build/Products/Debug-iphoneos"#plist文件位置
+releaseDir="${HOME}/Library/Developer/Xcode/DerivedData/Build/Products/Debug-iphoneos"
+#plist文件位置
 buildDir=${initDir}/${version}/BuildDir
 #创建文件夹
 mkdir -p "$DSYMDir"
@@ -129,10 +128,7 @@ function setConfig () {
 $PlistBuddy -c "Set :CFBundleShortVersionString $version" $plistFile
 $PlistBuddy -c "Set :CFBundleName ${bundleDisplayName}" $plistFile
 $PlistBuddy -c "Set :CFBundleIdentifier ${identifier}" $plistFile
-#创建钥匙链
-#unlock-keychain 如果你使用ssh 节点打包 请 代开下面这一行的注释 并且将password 改为你要使用电脑的登录密码
-#security unlock-keychain -p password login.keychain
-security import $p12 -k ~/Library/Keychains/login.keychain -P "" -T /usr/bin/codesign
+
 openssl smime -in ${PROVISIONING_PROFILE} -inform der -verify > profile || exit $?
 echo "证书导入成功"
 
@@ -155,7 +151,6 @@ xcodebuild -workspace $xcworkspace  -scheme  $scheme  -configuration $conf  -arc
 /usr/bin/xcrun -sdk iphoneos PackageApplication -v "${buildDir}/${ipaNamePre}.xcarchive/Products/Applications/${scheme}.app" -o "${ipapath}" ${args} || exit $?
 cp -r ${buildDir}/${ipaNamePre}.xcarchive/dSYMs/ShouldWin.app.dSYM  ${DSYMBackupPath}
 cp -r ${buildDir}/${ipaNamePre}.xcarchive/Products/Applications/ShouldWin.app ${appFilePath}
-#cp -r ${ipapath} /Users/GJGroup/workCode/BuildSpace/yrdlc-iOS/${ipaNamePre}.ipa
 
 open ${ipaDir}
 echo sucessful!
@@ -164,4 +159,4 @@ echo sucessful!
 getConfig
 setConfig
 pkgAction
-#plistFile=$(find ./$targetName -name "$targetName-Info.plist")
+
