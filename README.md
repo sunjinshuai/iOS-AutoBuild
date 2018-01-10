@@ -6,9 +6,8 @@ iOS自动打包
 .xcodeproj所在的文件夹下，然后配置一下plist文件，打开terminal，运行这个.sh文件即可。
 
 然后来说一下调试中遇到的问题：
-1. 文件路径的问题
-2. Scheme的问题，我不知道自己的sheme是什么？或者我的sheme明明就是这个但是提示我找不到
-3. 脚本运行完，发现所有的文件都变成Modified状态，整个人顿时就不好了。。。
+1. Scheme的问题，我不知道自己的sheme是什么？或者我的sheme明明就是这个但是提示我找不到
+2. xcrun: error: unable to find utility "PackageApplication", not a developer tool or in PATH
 
 ### 问题一：Scheme的问题
 不知道自己的Scheme是什么的，可以去Product->Scheme->Edit Scheme下查看  
