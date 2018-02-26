@@ -1,4 +1,11 @@
 # iOS-AutoBuild
+
+<p align='left'>
+<img src="https://img.shields.io/badge/build-passing-brightgreen.svg">
+<img src="https://img.shields.io/badge/language-shell-orange.svg">
+<img src="https://img.shields.io/badge/made%20with-%3C3-red.svg">
+</p>
+
 iOS自动打包
 
 ## Requirements 要求
