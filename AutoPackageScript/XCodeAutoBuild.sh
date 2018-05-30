@@ -29,10 +29,10 @@ __SLEEP_TIME=0.3
 
 # 指定Target
 echo "\033[36;1m请选择 SCHEME (输入序号, 按回车即可) \033[0m"
-echo "\033[33;1m1. MYKitDemo \033[0m"
-echo "\033[33;1m2. MYKitDemo \033[0m"
-echo "\033[33;1m3. MYKitDemo \033[0m"
-echo "\033[33;1m4. MYKitDemo \033[0m\n"
+echo "\033[33;1m1. APPxxxxDev \033[0m"
+echo "\033[33;1m2. APPxxxxTest \033[0m"
+echo "\033[33;1m3. APPxxxxRelease \033[0m"
+echo "\033[33;1m4. APPxxxxAppStore \033[0m\n"
 
 read parameter
 sleep ${__SLEEP_TIME}
@@ -105,13 +105,13 @@ __BUILD_METHOD="${parameter}"
 
 # 判读用户是否有输入
 if [[ "${__BUILD_METHOD}" == "1" ]]; then
-ExportOptionsPlistPath="./Shell/Plist/AdHocExportOptionsPlist.plist"
+ExportOptionsPlistPath="./AutoPackageScript/AdHocExportOptionsPlist.plist"
 elif [[ "${__BUILD_METHOD}" == "2" ]]; then
-ExportOptionsPlistPath="./Shell/Plist/AppStoreExportOptionsPlist.plist"
+ExportOptionsPlistPath="./AutoPackageScript/AppStoreExportOptionsPlist.plist"
 elif [[ "${__BUILD_METHOD}" == "3" ]]; then
-ExportOptionsPlistPath="./Shell/Plist/EnterpriseExportOptionsPlist.plist"
+ExportOptionsPlistPath="./AutoPackageScript/EnterpriseExportOptionsPlist.plist"
 elif [[ "${__BUILD_METHOD}" == "4" ]]; then
-ExportOptionsPlistPath="./Shell/Plist/DevelopmentExportOptionsPlist.plist"
+ExportOptionsPlistPath="./AutoPackageScript/DevelopmentExportOptionsPlist.plist"
 else
 echo "${__LINE_BREAK_LEFT} 您输入的打包方式参数无效!!! ${__LINE_BREAK_RIGHT}"
 exit 1
@@ -186,7 +186,7 @@ __PROJECT_NAME=`find . -name *.xcodeproj | awk -F "[/.]" '{print $(NF-1)}'`
 # 已经指定Target的Info.plist文件路径
 __CURRENT_INFO_PLIST_NAME="${__SCHEME_NAME}-Info.plist"
 # 获取 Info.plist 路径
-__CURRENT_INFO_PLIST_PATH="${__PROJECT_NAME}/Configs/${__CURRENT_INFO_PLIST_NAME}"
+__CURRENT_INFO_PLIST_PATH="${__PROGECT_PATH}/${__PROJECT_NAME}/${__CURRENT_INFO_PLIST_NAME}"
 # 当前的plist文件路径
 echo "${__LINE_BREAK_LEFT} 当前Info.plist路径= ${__CURRENT_INFO_PLIST_PATH} ${__LINE_BREAK_RIGHT}"
 # 获取版本号
