@@ -3,16 +3,13 @@
 
 # step 1. 将AutoPackageScript整个文件夹拖入到项目主目录,项目主目录,项目主目录~~~(重要的事情说3遍!😊😊😊)
 # step 2. 配置该脚本;
-# step 2. cd 该脚本目录，运行chmod +x autopacking.sh;
-# step 3. 终端运行 sh autopacking.sh;
+# step 2. cd 该脚本目录，运行chmod +x XCodeAutoBuild.sh;
+# step 3. 终端运行 sh XCodeAutoBuild.sh;
 # step 4. 选择不同选项....
 # step 5. Success  🎉 🎉 🎉!
 
-# ************************* 配置 Start ********************************
 
-# 指定项目的scheme名称
-# 如果项目中有多个tatget，可以把这个变量注释掉
-__SCHEME_NAME="demo"
+# ************************* 配置 Start ********************************
 
 # 上传到蒲公英
 __PGYER_U_KEY="4xxxxxxxxxxxxxxxxxxxxxxxxxxxxxb"
@@ -20,6 +17,10 @@ __PGYER_API_KEY="3xxxxxxxxxxxxxxxxxxxxxxxxxx5"
 
 # 上传到 Fir
 __FIR_API_TOKEN="xKKdjdldlodeikK626266skdkkddK"
+
+# 证书
+__CODE_SIGN_DISTRIBUTION="iPhone Distribution: xxxxxxxxxxxCo., Ltd."
+__CODE_SIGN_DEVELOPMENT="iPhone Developer: xxxx xxxx (5xxxxxxxxxx2V)"
 
 # 换行符
 __LINE_BREAK_LEFT="\n\033[32;1m*********"
@@ -39,13 +40,13 @@ __SCHEME_NAME_SELECTED="${parameter}"
 
 # 判读用户是否有输入
 if [[ "${__SCHEME_NAME_SELECTED}" == "1" ]]; then
-__SCHEME_NAME="${__SCHEME_NAME}"
+__SCHEME_NAME="APPxxxxDev"
 elif [[ "${__SCHEME_NAME_SELECTED}" == "2" ]]; then
-__SCHEME_NAME="${__SCHEME_NAME}"
+__SCHEME_NAME="APPxxxxTest"
 elif [[ "${__SCHEME_NAME_SELECTED}" == "3" ]]; then
-__SCHEME_NAME="${__SCHEME_NAME}"
+__SCHEME_NAME="APPxxxxRelease"
 elif [[ "${__SCHEME_NAME_SELECTED}" == "4" ]]; then
-__SCHEME_NAME="${__SCHEME_NAME}"
+__SCHEME_NAME="APPxxxxAppStore"
 else
 echo "${__LINE_BREAK_LEFT} 您输入 SCHEME 参数无效!!! ${__LINE_BREAK_RIGHT}"
 exit 1
@@ -104,13 +105,13 @@ __BUILD_METHOD="${parameter}"
 
 # 判读用户是否有输入
 if [[ "${__BUILD_METHOD}" == "1" ]]; then
-ExportOptionsPlistPath="./AutoPackageScript/AdHocExportOptionsPlist.plist"
+ExportOptionsPlistPath="./Shell/Plist/AdHocExportOptionsPlist.plist"
 elif [[ "${__BUILD_METHOD}" == "2" ]]; then
-ExportOptionsPlistPath="./AutoPackageScript/AppStoreExportOptionsPlist.plist"
+ExportOptionsPlistPath="./Shell/Plist/AppStoreExportOptionsPlist.plist"
 elif [[ "${__BUILD_METHOD}" == "3" ]]; then
-ExportOptionsPlistPath="./AutoPackageScript/EnterpriseExportOptionsPlist.plist"
+ExportOptionsPlistPath="./Shell/Plist/EnterpriseExportOptionsPlist.plist"
 elif [[ "${__BUILD_METHOD}" == "4" ]]; then
-ExportOptionsPlistPath="./AutoPackageScript/DevelopmentExportOptionsPlist.plist"
+ExportOptionsPlistPath="./Shell/Plist/DevelopmentExportOptionsPlist.plist"
 else
 echo "${__LINE_BREAK_LEFT} 您输入的打包方式参数无效!!! ${__LINE_BREAK_RIGHT}"
 exit 1
@@ -175,7 +176,7 @@ echo "${__LINE_BREAK_LEFT} 使用打包配置文件路径=${ExportOptionsPlistPa
 # 打包计时
 __CONSUME_TIME=0
 # 回退到工程目录
-cd ..
+cd ../
 __PROGECT_PATH=`pwd`
 echo "${__LINE_BREAK_LEFT} 进入工程目录=${__PROGECT_PATH} ${__LINE_BREAK_RIGHT}"
 
@@ -183,9 +184,9 @@ echo "${__LINE_BREAK_LEFT} 进入工程目录=${__PROGECT_PATH} ${__LINE_BREAK_R
 __PROJECT_NAME=`find . -name *.xcodeproj | awk -F "[/.]" '{print $(NF-1)}'`
 
 # 已经指定Target的Info.plist文件路径
-__CURRENT_INFO_PLIST_NAME="${__SCHEME_NAME}/Info.plist"
+__CURRENT_INFO_PLIST_NAME="${__SCHEME_NAME}-Info.plist"
 # 获取 Info.plist 路径
-__CURRENT_INFO_PLIST_PATH="/Users/sunjinshuai/Desktop/demo/demo/Info.plist"
+__CURRENT_INFO_PLIST_PATH="${__PROJECT_NAME}/Configs/${__CURRENT_INFO_PLIST_NAME}"
 # 当前的plist文件路径
 echo "${__LINE_BREAK_LEFT} 当前Info.plist路径= ${__CURRENT_INFO_PLIST_PATH} ${__LINE_BREAK_RIGHT}"
 # 获取版本号
@@ -197,7 +198,7 @@ __BUNDLE_BUILD_VERSION=`/usr/libexec/PlistBuddy -c "Print CFBundleVersion" ${__C
 echo "${__LINE_BREAK_LEFT} 打包版本=${__BUNDLE_VERSION} 编译版本=${__BUNDLE_BUILD_VERSION} ${__LINE_BREAK_RIGHT}"
 
 # 编译生成文件目录
-__EXPORT_PATH=~/Desktop/$__SCHEME_NAME-IPA
+__EXPORT_PATH="./build"
 
 # 指定输出文件目录不存在则创建
 if test -d "${__EXPORT_PATH}" ; then
@@ -240,7 +241,10 @@ xcodebuild clean  -workspace ${__PROJECT_NAME}.xcworkspace \
 xcodebuild archive  -workspace ${__PROJECT_NAME}.xcworkspace \
 -scheme ${__SCHEME_NAME} \
 -configuration ${__BUILD_CONFIGURATION} \
--archivePath ${__EXPORT_ARCHIVE_PATH}
+-archivePath ${__EXPORT_ARCHIVE_PATH} \
+CFBundleVersion=${__BUNDLE_BUILD_VERSION} \
+-destination generic/platform=ios \
+CODE_SIGN_IDENTITY="${__CODE_SIGN_DEVELOPMENT}"
 
 elif [[ ${__BUILD_CONFIGURATION} == "Release" ]]; then
 echo "${__LINE_BREAK_LEFT} 您选择了以 xcworkspace-Release 模式打包 ${__LINE_BREAK_RIGHT}"
@@ -253,7 +257,10 @@ xcodebuild clean  -workspace ${__PROJECT_NAME}.xcworkspace \
 xcodebuild archive  -workspace ${__PROJECT_NAME}.xcworkspace \
 -scheme ${__SCHEME_NAME} \
 -configuration ${__BUILD_CONFIGURATION} \
--archivePath ${__EXPORT_ARCHIVE_PATH}
+-archivePath ${__EXPORT_ARCHIVE_PATH} \
+CFBundleVersion=${__BUNDLE_BUILD_VERSION} \
+-destination generic/platform=ios \
+CODE_SIGN_IDENTITY="${__CODE_SIGN_DISTRIBUTION}"
 else
 echo "${__LINE_BREAK_LEFT} 您输入的参数不对 😢 😢 😢 ${__LINE_BREAK_RIGHT}"
 echo "Usage:\n"
@@ -267,13 +274,17 @@ echo "${__LINE_BREAK_LEFT}您选择了以 xcodeproj-Debug 模式打包 ${__LINE_
 # step 1. Clean
 xcodebuild clean  -project ${__PROJECT_NAME}.xcodeproj \
 -scheme ${__SCHEME_NAME} \
--configuration ${__BUILD_CONFIGURATION}
+-configuration ${__BUILD_CONFIGURATION} \
+-alltargets
 
 # step 2. Archive
 xcodebuild archive  -project ${__PROJECT_NAME}.xcodeproj \
 -scheme ${__SCHEME_NAME} \
 -configuration ${__BUILD_CONFIGURATION} \
--archivePath ${__EXPORT_ARCHIVE_PATH}
+-archivePath ${__EXPORT_ARCHIVE_PATH} \
+CFBundleVersion=${__BUNDLE_BUILD_VERSION} \
+-destination generic/platform=ios \
+CODE_SIGN_IDENTITY="${__CODE_SIGN_DEVELOPMENT}"
 
 
 elif [[ ${__BUILD_CONFIGURATION} == "Release" ]]; then
@@ -281,12 +292,16 @@ echo "${__LINE_BREAK_LEFT} 您选择了以 xcodeproj-Release 模式打包 ${__LI
 # step 1. Clean
 xcodebuild clean  -project ${__PROJECT_NAME}.xcodeproj \
 -scheme ${__SCHEME_NAME} \
--configuration ${__BUILD_CONFIGURATION}
+-configuration ${__BUILD_CONFIGURATION} \
+-alltargets
 # step 2. Archive
 xcodebuild archive  -project ${__PROJECT_NAME}.xcodeproj \
 -scheme ${__SCHEME_NAME} \
 -configuration ${__BUILD_CONFIGURATION} \
--archivePath ${__EXPORT_ARCHIVE_PATH}
+-archivePath ${__EXPORT_ARCHIVE_PATH} \
+CFBundleVersion=${__BUNDLE_BUILD_VERSION} \
+-destination generic/platform=ios \
+CODE_SIGN_IDENTITY="${__CODE_SIGN_DISTRIBUTION}"
 
 else
 echo "${__LINE_BREAK_LEFT} 您输入的参数不对 😢 😢 😢 ${__LINE_BREAK_RIGHT}"
@@ -371,5 +386,4 @@ exit 1
 fi
 
 # 输出打包总用时
-echo "${__LINE_BREAK_LEFT} 使用AutoPackageScript脚本打包总耗时: ${SECONDS}s ${__LINE_BREAK_RIGHT}"
-
+echo "${__LINE_BREAK_LEFT} 使用YJShell脚本打包总耗时: ${SECONDS}s ${__LINE_BREAK_RIGHT}"
