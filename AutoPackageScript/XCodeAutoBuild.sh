@@ -19,8 +19,8 @@ __PGYER_API_KEY="3xxxxxxxxxxxxxxxxxxxxxxxxxx5"
 __FIR_API_TOKEN="xKKdjdldlodeikK626266skdkkddK"
 
 # 证书
-__CODE_SIGN_DISTRIBUTION="iPhone Distribution: xxxxxxxxxxxCo., Ltd."
-__CODE_SIGN_DEVELOPMENT="iPhone Developer: xxxx xxxx (5xxxxxxxxxx2V)"
+__CODE_SIGN_DISTRIBUTION="iPhone Distribution: Shanghai Maimiao Information Technology Co., Ltd."
+__CODE_SIGN_DEVELOPMENT="iPhone Developer: Peng Shi (4NBP57JE58)"
 
 # 换行符
 __LINE_BREAK_LEFT="\n\033[32;1m*********"
@@ -29,10 +29,10 @@ __SLEEP_TIME=0.3
 
 # 指定Target
 echo "\033[36;1m请选择 SCHEME (输入序号, 按回车即可) \033[0m"
-echo "\033[33;1m1. APPxxxxDev \033[0m"
-echo "\033[33;1m2. APPxxxxTest \033[0m"
-echo "\033[33;1m3. APPxxxxRelease \033[0m"
-echo "\033[33;1m4. APPxxxxAppStore \033[0m\n"
+echo "\033[33;1m1. MYKitDemo \033[0m"
+echo "\033[33;1m2. MYKitDemo \033[0m"
+echo "\033[33;1m3. MYKitDemo \033[0m"
+echo "\033[33;1m4. MYKitDemo \033[0m\n"
 
 read parameter
 sleep ${__SLEEP_TIME}
