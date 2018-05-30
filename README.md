@@ -20,7 +20,7 @@ iOS自动打包
 step 1. 将AutoPackageScript整个文件夹拖入到项目主目录,项目主目录,项目主目录~~~(重要的事情说3遍!😊😊😊)
 step 2. 配置该脚本;
 step 2. cd 该脚本目录，运行chmod +x XCodeAutoBuild.sh;
-step 3. 终端运行 XCodeAutoBuild.sh;
+step 3. 运行 sh XCodeAutoBuild.sh;
 step 4. 选择不同选项....
 step 5. Success  🎉 🎉 🎉!
 ```
