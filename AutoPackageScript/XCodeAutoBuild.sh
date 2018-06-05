@@ -404,4 +404,4 @@ exit 1
 fi
 
 # 输出打包总用时
-echo "${__LINE_BREAK_LEFT} 使用YJShell脚本打包总耗时: ${SECONDS}s ${__LINE_BREAK_RIGHT}"
+echo "${__LINE_BREAK_LEFT} 使用脚本打包总耗时: ${SECONDS}s ${__LINE_BREAK_RIGHT}"
