@@ -324,8 +324,8 @@ CODE_SIGN_IDENTITY="${__CODE_SIGN_DISTRIBUTION}"
 else
 echo "${__LINE_BREAK_LEFT} 您输入的参数不对 😢 😢 😢 ${__LINE_BREAK_RIGHT}"
 echo "Usage:\n"
-echo "sh autopacking.sh"
-echo "sh autopacking.sh"
+echo "sh XCodeAutoBuild.sh"
+echo "sh XCodeAutoBuild.sh"
 exit 1
 fi
 fi
