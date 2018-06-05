@@ -38,3 +38,25 @@ step 5. Success  🎉 🎉 🎉!
 * 支持 Debug 和 Release；
 * 支持导出 app-store, ad-hoc, enterprise, development 的包；
 * 支持自动上传到蒲公英或者 Fir 等内测网站；
+
+## 七、注意事项
+
+自动生成 ExportOptions.plist
+
+```
+# 指定导出ipa包需要用到的plist配置文件的路径
+__ExportOptionsPlistPath=${__PROGECT_PATH}/ExportOptions.plist
+
+# 先删除ExportOptionsPlistPath文件
+if [ -f "$__ExportOptionsPlistPath" ] ; then
+echo "${__ExportOptionsPlistPath}文件存在，进行删除"
+rm -f $__ExportOptionsPlistPath
+fi
+# 根据参数生成export_options_plist文件
+/usr/libexec/PlistBuddy -c  "Add :method String ${__METHOD}"  $__ExportOptionsPlistPath
+/usr/libexec/PlistBuddy -c  "Add :provisioningProfiles:"  $__ExportOptionsPlistPath
+/usr/libexec/PlistBuddy -c  "Add :provisioningProfiles:${__BUNDLE_IDENTIFIER} String ${__MOBILEPROVISION_NAME}"  $__ExportOptionsPlistPath
+
+echo "${__LINE_BREAK_LEFT} 使用打包配置文件路径=${__ExportOptionsPlistPath} ${__LINE_BREAK_RIGHT}"
+```
+
